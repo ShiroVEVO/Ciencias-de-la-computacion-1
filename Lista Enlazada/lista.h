@@ -88,17 +88,69 @@ void lista<T>::insertar_inicio(T dato){	//Inserta un dato al inicio de la lista 
 
 template <class T>
 bool lista<T>::borrar(int pos){
-	
+	if (firstNode== NULL) {
+        return false;
+    }
+    
+    // Almacenar el nodo de la cabeza temporalmente
+    nodo<T> *temp = firstNode;
+    
+    // Si la posición es 0, ajusta la cabeza de la lista para apuntar al segundo nodo
+    if (pos== 0) {
+        this->firstNode = temp->sig;
+        free(temp);
+        return true;
+    }
+    
+    // Encuentra el nodo anterior al nodo que se va a eliminar
+    for (int i = 0; temp != NULL && i < pos-2; i++) {
+        temp = temp->sig;
+    }
+    
+    // Si la posición es mayor que el tamaño de la lista, no se puede eliminar ningún nodo
+    if (temp == NULL || temp->sig == NULL) {
+        return false;
+    }
+    
+    // Almacenar el nodo siguiente temporalmente
+    nodo<T>* next = temp->sig->sig;
+    
+    // Libera la memoria del nodo que se va a eliminar
+    free(temp->sig);
+    
+    // Ajusta los punteros de los nodos adyacentes para que apunten entre ellos saltando el nodo que se va a eliminar
+    temp->sig = next;
+    // resta 1 al tamaño de la lista
+	size--;
 }
 
 template <class T>
 T lista<T>::buscar (int pos){
-	
+	// si no hay ningun nodo o si la posicion es mayor que el tamaño
+	if (firstNode== NULL || pos>size) {
+        return false;
+    }
+	// retorna para posiciones entre 0 y el tamaño de la lista
+	nodo<T> *searchedNode = this->firstNode;
+        for(int i = 1; i < pos; i++){
+            searchedNode = searchedNode->sig;
+        }
+	return searchedNode->Dato;
 }
 
 template <class T>
 bool lista<T>::modificar(T infoNueva,int pos){
-	
+		// si no hay ningun nodo o si la posicion es mayor que el tamaño
+	if (this->firstNode== NULL || pos>size) {
+        return false;
+    }
+	// busca el nodo para posiciones entre 0 y el tamaño de la lista para modificar Dato
+	nodo<T> *searchedNode = this->firstNode;
+        for(int i = 1; i < pos; i++){
+            searchedNode = searchedNode->sig;
+        }
+	searchedNode->Dato=infoNueva;
+	return true ;
 }
 
 template <class T>
