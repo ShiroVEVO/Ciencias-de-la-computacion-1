@@ -73,9 +73,7 @@ class listaordenada{
     	if (inicio == NULL) { // la lista está vacía
         	return false;
     	} else if (inicio->estudiante.codigo == codigo) { // el estudiante a eliminar es la cabeza
-        	nodo *temp = inicio;
         	inicio = inicio->sig;
-        	delete temp;
         	tamano--;
         	return true;
     	} else if (centinela_final->estudiante.codigo == codigo) { // el estudiante a eliminar es el centinela final
